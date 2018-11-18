@@ -12,6 +12,6 @@ Data is entered or modified with the use of a generated data entry module, that 
 The system is first used for the disclosure of the KDC archives, containing large and small archives by persons or organisations, 
 a library, a photo and poster collection, newspaper clippings and a thesaurus, based on the AACR rules.
 
-Download only the DOC folder, to see examples and possibilities, if you like.
+Download only the DOCUMENTATION folder, to see examples and possibilities, if you like.
 
 
