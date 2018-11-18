@@ -1,0 +1,138 @@
+--
+-- Database: `ArCatSy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table `collections`
+--
+
+CREATE TABLE IF NOT EXISTS `collections` (
+  `CollCode` char(4) NOT NULL,
+  `CollName` varchar(100) NOT NULL,
+  `DefPrtSpec` char(50) NOT NULL,
+  `EntitySelFields` char(50) NOT NULL,
+  PRIMARY KEY (`CollCode`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `collfields`
+--
+
+CREATE TABLE IF NOT EXISTS `collfields` (
+  `CollCode` varchar(4) NOT NULL,
+  `FldCode` varchar(4) NOT NULL,
+  `FldCaption` varchar(100) NOT NULL,
+  `FldCheckErrmsg` varchar(255) NOT NULL,
+  `FldCheckRegexp` varchar(255) NOT NULL,
+  `FldCombo` varchar(32) NOT NULL,
+  `FldInputOrder` int(11) NOT NULL,
+  `FldMaxLength` int(11) NOT NULL,
+  `FldMaxOccurs` int(11) NOT NULL,
+  `FldParent` varchar(4) NOT NULL,
+  `FldPExit` tinyint(1) NOT NULL,
+  `FldQExit` tinyint(1) NOT NULL,
+  `FldSExit` tinyint(1) NOT NULL,
+  `FldXExit` tinyint(1) NOT NULL,
+  `FldTermType` varchar(2) NOT NULL,
+  `FldTermRegexp` varchar(255) NOT NULL,
+  PRIMARY KEY (`CollCode`,`FldCode`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `combo`
+--
+
+CREATE TABLE IF NOT EXISTS `combo` (
+  `CmbCode` varchar(50) NOT NULL,
+  `CmbOrder` int(11) NOT NULL,
+  `CmbText` varchar(255) NOT NULL,
+  PRIMARY KEY (`CmbCode`,`CmbOrder`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `data`
+--
+
+CREATE TABLE IF NOT EXISTS `data` (
+  `CollCode` char(4) NOT NULL,
+  `CollSeq` int(4) NOT NULL,
+  `FldCode` char(4) NOT NULL,
+  `FldSeqnr` decimal(16,0) NOT NULL,
+  `FldText` varchar(255) NOT NULL,
+  PRIMARY KEY (`CollCode`,`CollSeq`,`FldCode`,`FldSeqnr`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `prtspeclines`
+--
+
+CREATE TABLE IF NOT EXISTS `prtspeclines` (
+  `PrtSpec` varchar(50) NOT NULL,
+  `PrtOrder` int(11) NOT NULL,
+  `FldCode` varchar(15) NOT NULL,
+  `BeforeFirstField` varchar(255) NOT NULL,
+  `BetweenFields` varchar(255) NOT NULL,
+  `AfterLastField` varchar(255) NOT NULL,
+  `IfFieldMissing` varchar(255) NOT NULL,
+  `IfFieldDifferent` tinyint(1) NOT NULL,
+  PRIMARY KEY (`PrtSpec`,`PrtOrder`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `prtspecs`
+--
+
+CREATE TABLE IF NOT EXISTS `prtspecs` (
+  `CollCode` char(4) NOT NULL,
+  `PrtSpec` char(50) NOT NULL,
+  PRIMARY KEY (`CollCode`,`PrtSpec`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `searchterms`
+--
+
+CREATE TABLE IF NOT EXISTS `searchterms` (
+  `CollCode` varchar(4) NOT NULL,
+  `CollSeq` int(11) NOT NULL,
+  `TermType` varchar(2) NOT NULL,
+  `TermText` varchar(255) NOT NULL,
+  PRIMARY KEY (`CollCode`,`CollSeq`,`TermType`,`TermText`)
+)  ;
+
+-- --------------------------------------------------------
+
+--
+-- Table `tobeindexed`
+--
+
+CREATE TABLE IF NOT EXISTS `tobeindexed` (
+  `CollCode` char(4) NOT NULL,
+  `CollSeq` int(4) NOT NULL,
+  PRIMARY KEY (`CollCode`,`CollSeq`)
+)  ;
+--
+-- Table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `Name` varchar(32) NOT NULL,
+  `Pswd` varchar(32) NOT NULL,
+  `Access` datetime NOT NULL,
+  `Role` char(1) NOT NULL,
+  PRIMARY KEY (`Name`)
+)  ;

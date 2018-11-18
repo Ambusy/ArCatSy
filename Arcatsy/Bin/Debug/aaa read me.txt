@@ -1,0 +1,74 @@
+This is a Document and Object Archiving System.
+
+It gives the archivist complete freedom over which collections will be together in one archive. 
+Each collection will have it's own definition of which elements it will contain, independent of other collections.
+Each collection will have multiple formats in which the data is shown or printed, formats may be shared with other collections.
+Each collection exposes a number of terms with which information can be found using the search module. If 2 or more collections
+use the same term, they may be found together while searching. Using a term while searching is optional.
+Modules are available to create indexes or registers of the data from one or more collections together.
+Data is entered or modified with the use of a generated data entry module, that is then completely programmable using the Rexx language.
+
+The system is first used for the disclosure of the KDC archives, containing large and small archives by persons or organisations, 
+a library, a photo and poster collection, newspaper clippings and a thesaurus, based on the AACR rules.
+
+Download only the DOC folder, to see examples and possibilities, if you like.
+
+
+
+
+By installing this application, you declare to accept the conditions in the LICENSE, included below.
+
+To implement the archive cataloguing system you execute these steps: 
+
+Unzip the package
+The titles of fields in the database and some procedures in ReXX have a text in English, 
+modify the source where necessary. 
+Read the documentation (starting page is "Contents of the A R C A T documentation") in the installation folder, to get detailed information 
+on how to customise the system: 
+- Choose the type of database, you'll find empty databases for Access (mdb) and SQLite (db) 
+  with collections prepared for a mail archiving system: incoming and outgoing mail and required interactions for them.
+- Add fields in the definitions of the archive 
+- Change the print layout of entities 
+- Create own programs in Rexx, to incorporate into the system 
+- Etc.
+Connect any of sample databases to ODCB and name the database in the "system messages.txt" as indicated in the documentation.
+The existing example, incoming and outgoing mail, can exist alongside your own archives, or can be deleted.
+Feel free to experiment with it, and in the end, first delete the data and then delete or hide the definitions.
+
+Use NewCollection.exe when you have a TMPL template collection from which you clone many real collections.
+
+Contact me at Ambusy AT gmail.com for further details, questions (how to do ………), anything. 
+
+LICENCE
+Please, read carefully the following license agreement.
+If you don't accept the terms of the agreement, please delete 
+the software from your computer immediately.
+ArCatSy, all it's files and documentation (the software)
+is copyrighted by MPM vd Burgt, AMBusy (The author). The following terms 
+apply to all files associated with the software unless explicitly 
+disclaimed.
+
+The author hereby grants permission to use, copy and distribute, 
+(but NOT sell) this software and its documentation, provided
+that all the original executable files (.exe and .dll) are retained unchanged 
+in all copies and that this notice is included verbatim in any distributions.
+All .txt and .rex type files may be altered for your own use, but altered files may
+not be distributed outside your own organization.
+No written agreement, license, or royalty fee is required to use or
+to distribute this software.
+
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, INDIRECT OR 
+CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE 
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE 
+OR PERFORMANCE OF THIS SOFTWARE 
+
+THE AUTHOR SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE, AND NON-INFRINGEMENT. THIS SOFTWARE AND ITS 
+DOCUMENTATION ARE PROVIDED ON AN "AS IS" BASIS, AND THE AUTHOR
+HAVE NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
+ENHANCEMENTS, OR MODIFICATIONS, UNLESS A NEW CONTRACT WAS MADE BETWEEN
+THE AUTHOR AND THE USER. OBBLIGATIONS WILL BE NOTED IN CONTRACT.
+
+COPYRIGHT 2018 AMBusy, Tulcea, Europe.
