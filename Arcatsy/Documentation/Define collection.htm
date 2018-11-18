@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Define the collections</TITLE>
+</HEAD>
+<BODY>
+<FONT SIZE=2><P>To define a collection (which fields, checks, searchpaths, etc.) 
+<p>on the main menu <br><IMG SRC="Menu1.jpg"><p>click Maintenance(<IMG SRC="spot1.jpg">), 
+and on the maintenance screen <br><IMG SRC="Maintenance1.jpg"> 
+<p>choose Collections (<IMG SRC="spot2.jpg">) 
+<p>
+<FONT SIZE=4>Defining a collection.</FONT>
+<P>Asume that I want to insert my collection of 45rpm vinyl singles with 4 kinds of information for each single: 
+<br>1. Artist. <br>2. Title of the A-side. <br>3. Other titles, on the B-side or the 2 or 3 other titles on EP-type singles.
+<br>4. Year of issue. It might be inserted as follows:</P> 
+<IMG SRC="Coll2.jpg">
+<IMG SRC="Coll2b.jpg">
+<P>in the grid marked <IMG SRC="spot1.jpg"> I insert: <br>1. Code for the collection:
+ 45R <IMG SRC="spred.jpg">. 
+<br>2. a name for the collection: 45 rpm vinyl singles <IMG SRC="spblue.jpg">.
+<br>3. the name of the layout to be used as default when
+showing or printing this collection: L45R <IMG SRC="spyellow.jpg"> 
+(layouts will be explained in the chapter <A HREF="Define layout.htm">Define display layout</A>.
+The code written here should be the name of the first defined layout, if not yet created before).
+<br>4. the names of the fields in the detail grid (marked <IMG SRC="spot2.jpg">) that will form the search directory
+when correcting previosusly inserted entities of the collection: ar,ti <IMG SRC="splgreen.jpg"). This section will be explained in the Data Entry
+part of this documentation.
+</P> 
+<P>in the grid marked <IMG SRC="spot2.jpg">  
+<br>the code for the collection 45R is filled in automatically, as 45R is the current row in the grid above.
+<br>I insert as many rows as I want distinguishes detail information about an entity in the collection. 
+Each row will be known as a field in the collection:
+<br>2. A code to identify the field FldCode (<IMG SRC="spgreen.jpg">) of 1 to 4 characters (Artist: ar, Title: ti,  
+Other title: ot, Year: yr)
+<br>3. A text to identify the field when on a screen FldCaption (<IMG SRC="spyellow.jpg">)  
+<br>4. Optional, the code of the field, of which the current row is subordinate FldParent (<IMG SRC="splblue.jpg">)  
+A subordinate field exists only, if the so called parent has been valorizised. In display and in print
+subordinate fields will always appear just behind their respective parents. Imagine to store information
+about persons: name, date of birth, date of death. Name might be the parent field as it is always present, both 
+dates are fields and have name as a parent. A anme may exist without a date, a date can not exists without 
+a name. 
+<br>5. The sequence in which the fields will be entered during the data entry phase 
+FldInputOrder (<IMG SRC="sporange.jpg">). The sequence may be altered by modifying the Rexx Data Entry 
+program for the collection, as will be explained in chapter <A HREF="Userexits.htm">User exits</A>.
+<br>6. The maximum number of characters of the field in the data entry FldMaxLength (<IMG SRC="splgreen.jpg">). 
+<br>7. The maximum number of times that the field occurs in one entity FldMaxOccurs (<IMG SRC="sprosa.jpg">).
+If a field is subordinate to another, here you note how many time it occurs for each of the parent fields.
+a field A (occurs 3) with a subordinate B (occurs 4) will have 0 to 12 times a field of type B.
+<br>8. Optional a regular expression FldCheckRegexp (<IMG SRC="spblue.jpg">), that will be executed 
+against the text entered in the data entry phase.
+It inhibits a non valid text to be entered in the database. See for details on
+ <A HREF="Regular expressions.htm"> Regular expressions</A>.
+<br>9. Optional an error message FldCheckErrMsg (<IMG SRC="spviolet.jpg">), that will be shown if the text
+is a non valid ones. The message is obbligatory, if the preceeding column contains an expression.
+<br>10. Optional a regular expression FldTermRegexp (<IMG SRC="spuviolet.jpg">), that will be executed 
+against the text when the search index for the collection is being updated. Each term produced by the
+regular expression will be added to the index and cause the entity to be found if the database is being searched.
+Instead of this expression, you may write a ReXX program to extract terms, checking 
+box FldXExit (<IMG SRC="spbrown.jpg">)
+<br>11. Optional a code FldTermType (<IMG SRC="spdgreen.jpg">) of 1 to 4 characters, that will identify the 
+searchterms, created by the preceding expression or by the ReXX program. 
+Note in this sample, that each word from Title and also from Other titles will 
+be stored in the index with code TI, thus not allowing to distinguish between them when searching.
+The code is obbligatory, if the preceeding column contains an expression.
+<br>12. Optionally the name of a Combo in FldCombo (<IMG SRC="spmascara.jpg">), that will identify 
+the list of values that the usere may choose from when entering data, instead of typing the text. 
+Using combo's will be explaind in the chapter <A HREF="Combos.htm">Combo lists</A>.
+<br>13. A checkbox FldPExit (<IMG SRC="spuviolet.jpg">) to have the system activate the 
+<A HREF="Userexits.htm#dp">Print </A>exit for this field.
+<br>14. A checkbox FldSExit (<IMG SRC="spdgrey.jpg">) to have the system activate the 
+<A HREF="Userexits.htm#so">Sort </A> exit for this field.
+<br>15. A checkbox FldXExit (<IMG SRC="spbrown.jpg">) to have the system activate the 
+<A HREF="Userexits.htm#ri">Indexing </A>  exit for this field.
+<br>16. A checkbox FldQExit (<IMG SRC="spblue2.jpg">) to have the system activate the 
+<A HREF="Userexits.htm#ed">Query </A>  exit for this field.
+<br>Detailed information about writing your own programs may be found in the chapter 
+<A HREF="Userexits.htm">User exits</A>.
+<P>After having inserted each field and its definition parameters, close the window (<IMG SRC="Cross.jpg">)
+in the right upper corner, to return to the maintenance screen.</P> 
+<A HREF="Define layout.htm">Next chapter</A>
+</FONT></BODY>
+</HTML>

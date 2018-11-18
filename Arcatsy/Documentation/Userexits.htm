@@ -1,0 +1,703 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>User exits</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.0  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="m bu">
+	<META NAME="CHANGED" CONTENT="20101118;21424100">
+	<META NAME="CHANGEDBY" CONTENT="m b">
+</HEAD>
+<BODY LANG="it-IT" DIR="LTR">
+<P><FONT SIZE=5>User exits, made by you, the user</FONT></P>
+<P><FONT SIZE=2>This part contains chapters: <BR>. <A HREF="#de">Data
+entry</A> <BR>. <A HREF="#ri">Registers and query indices</A> <BR>.
+<A HREF="#sr">Standard register(s)</A> <BR>. <A HREF="#so">Sorting</A>
+<BR>. <A HREF="#dp">Display and print</A> <BR>. <A HREF="#sq">Standard
+queries</A> <BR>. <A HREF="#ed">Edit (standardize) query terms</A> </FONT>
+</P>
+<P><A NAME="de"></A><FONT SIZE=5>Data entry</FONT> 
+</P>
+<P><FONT SIZE=2>The standard Data entry program may be extended in
+various parts. First I explain the generated proram using the 45R
+collection as an example. </FONT>
+</P>
+<P><FONT SIZE=2>Standard entry for the Rexx program, defines
+necessary variables and parses the parameter that identifies: </FONT>
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>entry (type of data
+	entry: E = Entry, C = Correction) </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>type Type of action
+	requested (D, I, K, N, S, L, C) </FONT>
+	</P>
+	<LI><P><FONT SIZE=2>fname (field name and internal indices of field)
+	</FONT>
+	</P>
+</UL>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* DE 45R */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>text=&quot;TEXT&quot;</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>visible=&quot;VISIBLE&quot;</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>erc = 0</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>parse arg entry type fname</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>select</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>The Data Entry process requests various actions: D
+(Define), I (Initial entry screen), K (Key selected), N (Next key
+selected), S (Save), L (Left a field, user about to move to the next
+field), C (Changed field). <BR>D: define the fields. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;D&quot; then do</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>Specify the size of the boxes. SIZE followed by 3
+numbers: Height in points of the label above the entry field; Height
+in points of the entry field itself; Width in points of the entry
+field. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+    <FONT FACE="courier"><FONT SIZE=2>&quot;SIZE 10 20 700&quot;</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>DEFINE each field in the requested. The DEFINE is
+composed of the following elements (values are as defined in the
+Collection in Maintenance) </FONT>
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Fieldcode. If a
+	fieldcode starts with the symbol # it is considered a work-field for
+	internal use, and it will not be written to the database. The user
+	may enter data in it and you may use its value in the Rexx program. </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Optional, fieldcode
+	of the parent: T or C </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>T: data is entered in
+	a standard windows textbox </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>C: data may be
+	entered using a combobox </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Maximum occurrences
+	of the field </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Maximum length of the
+	field </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Optional, the name of
+	the list of values for the combobox (Combos in Maintenance) </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Activate exit type C
+	(User changed this field): y or n </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Activate exit type L
+	(User left this field): y or n </FONT>
+	</P>
+	<LI><P><FONT SIZE=2>Text to be presented in the label above the
+	textbox </FONT>
+	</P>
+</UL>
+<P><FONT SIZE=2>You may define a field with a name starting with a #.
+Such a field wil not be stored in the database. It may serve as a
+work field, shown to the user, and create another field whose value
+is stored in the database. If a anme does not start with # it must be
+a field defined for the collection. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+    <FONT FACE="courier"><FONT SIZE=2>&quot;DEFINE ar T 1 100 n n Artist&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;DEFINE ti T 1 100 n n A-side title&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;DEFINE ot T 3 100 n n Other titles&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;DEFINE yr T 1 4 n n Year issued&quot;</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>Get the text for 2 messages from the sustem message
+file to use with the screen messages: </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+    <FONT FACE="courier"><FONT SIZE=2>&quot;SYSMSG 357&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>imsg = SysMsg</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;SYSMSG 358&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>mmsg = SysMsg</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>I: Initialise fields with data. This section will be
+executed when entering new data, just before the empty screen is
+presented to the user. You may set default values here and provide
+fore a message. <BR>Code INITDATA to initialise all fields as empty.
+See below for other options. <BR>Code GETDATA fieldname(s) to
+retrieve the data and/or the message actually on the screen. It will
+transfer all fields (as defined by parent and maximum occurrences) to
+the Rexx program. You may then modify the value using a syntax like
+fld.x.y = &ldquo;value&rdquo; where x, y are internal indices. Tip:
+Use &lsquo;Trace i&rsquo; on the 2nd line to view the exact syntax of
+the names and values transferred. <BR>Code PUTDATA fieldname(s) to
+return the values to the system. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;I&quot; then do</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;INITDATA&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;GETDATA msg&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>msg.text = imsg</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;PUTDATA msg&quot;</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>K: The user pressed the &rdquo;Select an entity&rdquo;
+button. <BR>Code SELECTKEY to show a list of all entities, ordered by
+the contents of the field(s) named after the keyword. The command
+returns 1 if the user pressed the &ldquo;new&rdquo; button and 0 if
+an entity was selected by the user. The ALL option will show all
+entities in one (large) list. Specify RANGE to choose each time, what
+part of the entities will be shown.<BR>If the user selected an
+entity, code READDATA to set the field values to represent the actual
+data. The list of entities is never modified, unless you restart the
+program, to avoid excessive reads to the database, which might slow
+down the process too much. So changes will not be reflected in the
+list. New entries are added though. <BR>If the user wants to add a
+new entity, act as above for &quot;I&quot;. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;K&quot; then do</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;GETDATA msg&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;SELECTKEY ar,ti ALL&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>if rc = 1 then do</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>&quot;INITDATA&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>msg.text = imsg</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>else if rc = 0 then do</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>&quot;READDATA&quot;</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>msg.text = mmsg</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;PUTDATA msg&quot;</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>N: The user pressed the Next button. <BR>Code
+READDATA as above. You may now omit &lsquo;GETDATA msg&rsquo;, for
+the variable msg is already known to the ReXX due to previous
+commands! </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;N&quot; then do </FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;READDATA&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>msg.text = mmsg</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;PUTDATA msg&quot;</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>S: The user pressed the Save button: You might code
+GETDATA and check fields for contents and execute the SAVE or issue a
+message instead. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;S&quot; then do</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;SAVE&quot;</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>L: The user moves on to another field on the screen:
+<BR>This section will be executed only if you request it in the
+DEFINE. In fname you&rsquo;ll get the name of the field that has just
+been completed by the user. The code here is just an example. You
+might for instance check the value and issue a message. (Code Rexx
+statements, GETDATA, PUTDATA, etc.). <BR>If you set the Rexx variable
+ERC to a value &gt; 0 the user will not proceed to the new field, but
+be obliged to correct the field he just tried to leave. A value of 0
+allows the user to proceed normally. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+   <FONT FACE="courier"><FONT SIZE=2>when type = &quot;L&quot; then do</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>if fname = &quot;????.?&quot; then do</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>/* code statements for this field, if exit was activated */</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>C: The user changed something in the value of a
+field on the screen: This section will be executed only if you
+request it in the DEFINE. In fname you&rsquo;ll get the name of the
+field that has just been changed by the user. The code here is just
+an example. You might for instance complete the value or check the
+syntax and issue a message (Code Rexx statements, GETDATA, PUTDATA,
+etc). <BR>Using this exit might slow down the data entry process, for
+it will be executed for each character typed by the user. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+   <FONT FACE="courier"><FONT SIZE=2>when type = &quot;C&quot; then do</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>if fname = &quot;????.?&quot; then do</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>/* code statements for this field, if exit was activated */</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>Standard exit from the Rexx program: </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>exit erc </FONT></FONT></PRE><P>
+<FONT SIZE=2>Apart from the commands already mentioned, there are
+others: </FONT>
+</P>
+<UL>
+	<LI><P><FONT SIZE=2>Instead of the &quot;SELECTKEY a,b,c,...&quot;
+	you may write a &quot;INPUTKEY x&quot; command. It will not show a
+	list to select from, but ask to type the identifying key of the
+	entity. The key is chosen by you. Add the identifying field to the
+	definition of the collection, if not yet present. In the definition
+	use .* as FldTermRegexp and a code for FldTermType that is unique
+	within the collection. This code is writen instead of the &quot;x&quot;
+	in the command. The system locates the entity by searching the index
+	for this collection with type &quot;x&quot; and as term the code
+	entered by the user. I consider this method useful when the entity
+	represents a physical object with a tag and a barcode or optical
+	reader to read the tag into the pc, like books in a public library. </FONT>
+	</P>
+	<PRE STYLE="margin-right: 1cm"> 
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;K&quot; then do</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;GETDATA msg&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;INPUTKEY KY&quot;</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then do</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>&quot;READDATA&quot;</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>msg.text = mmsg</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>&quot;PUTDATA msg&quot;</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P STYLE="margin-bottom: 0cm">
+	<FONT SIZE=2><BR>where KY is the FldTermType. It is not allowed here
+	to insert a new entity though and on the data entry screen there
+	will be no Next button. </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>You may issue a FOCUS
+	fieldname_with_indices command, which will put the cursor on the
+	specified field. If omitted, the first field gets the focus. </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Code HIDE
+	fieldname_with_indices to hide a field from the user. You may still
+	alter its value and it will still be stored in the database </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Code SHOW
+	fieldname_with_indices to reshow a field hidden from the user
+	previously. For instance, you may have a field Marital status and
+	hide field Spouse name unless the value of the marital status field
+	changes to M for married. </FONT>
+	</P>
+	<LI><P><FONT SIZE=2>Code SQL selectstatement to retrieve any data
+	from the database. You need to know the database definitions though
+	to be able to write something useful. The result variable sql.0
+	contains the number of rows retrieved and sql.i.j contains the value
+	of field j in row i (counting from 1). Only Integers, Strings,
+	Decimals and Booleans are provided for, as yet. </FONT>
+	</P>
+</UL>
+<P><FONT SIZE=2>If you decide to adapt the data entry, by modifying
+the Rexx program, or by writing your own, you can create more than
+one version. Each program must start with DE and the name of the
+collection. The name may be extended adding a space and any text to
+identify it in detail. Valid names are DE XXXX or DE XXXX YYYYYY
+where XXXX stands for collection code and YYYYYY for any text. If
+more than one program exixts, the user will be prompted to indicate
+the program to be used. </FONT>
+</P>
+<P><A NAME="ri"></A><FONT SIZE=5>Registers and query indices</FONT> 
+</P>
+<P><FONT SIZE=2>Writing a ReXX program to extract terms</FONT></P>
+<P><FONT SIZE=2>Register and search index terms are created without
+programming if you specify a regular expression. For ordinary user
+(all words, all numbers, complete text) these are sufficiently
+equipped. But to refine the terms, you&rsquo;ll need to write your
+own code in the TERMS.rex program. A sample is provided for in the
+installation directory. To activate the Rexx program instead of the
+regular expression, check the FldXExit box for each required field in
+Collections in Maintenance and edit the TERMS.rex program
+accordingly. </FONT>
+</P>
+<P><FONT SIZE=2>The sample program returns each word. For the index
+in uppercase, for the register with the first letter in upper- and
+the others in lowercase: </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* Indexing a text for: X (search index) or R (register) */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>You are passed the follwing parameters: </FONT>
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>type of operation: </FONT>
+	</P>
+	<UL>
+		<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>R: creating a
+		register </FONT>
+		</P>
+		<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>X: Updating the
+		search indices</FONT></P>
+	</UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>The collection code </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>The field code </FONT>
+	</P>
+	<LI><P><FONT SIZE=2>the text of the field, to be processed </FONT>
+	</P>
+</UL>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>parse arg Tp CollCode FldCode text</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>t.0 = words(text)</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>do i=1 to t.0</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>t = word(text,i) </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>if Tp = &quot;R&quot; then do</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>t1 = substr(t,1,1)</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>t2 = substr(t,2) </FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>upper t1 </FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>lower t2 </FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>t.i = t1 || t2 </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>else do</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>upper t</FONT></FONT>
+    <FONT FACE="courier"><FONT SIZE=2>t.i = t </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>end </FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>Return a Rexx-array T., where T.0 is the number of
+terms extracted from the given text and T.1, T.2, &hellip; are the
+terms. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>exit 0</FONT></FONT></PRE><P>
+<BR><BR>
+</P>
+<P><A NAME="sr"></A><FONT SIZE=2><FONT SIZE=5>Standard register(s)</FONT>
+</FONT>
+</P>
+<P><FONT SIZE=2>Writing a ReXX program for predefined registers</FONT></P>
+<P><FONT SIZE=2>I show an example of 6 registers from the turn-key
+application for archives. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* REGISTER Create standard registers */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>erc = 0</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>parse arg type </FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>select</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;I&quot; then do</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>lf = x2c(&quot;0D0A&quot;)</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>r = 0</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR><BR>var &quot;r&quot; is the register requested, var
+&quot;a&quot; is the question to the user, with a CrLf per register. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+     <FONT FACE="courier"><FONT SIZE=2>do while (r &lt; 1 | r &gt; 3) &amp; r &lt;&gt; &quot;&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = &quot;Select the register&quot; </FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = a || lf &quot;1 Data entry correction list&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = a || lf &quot;2 Location list&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = a || lf &quot;3 Inventory&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = a || lf &quot;4 Register on 'in'&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = a || lf &quot;5 Register on each word of contents and indices&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>a = a || lf &quot;6 General index&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>say a</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>pull r</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR><BR>User cancelled? </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+     <FONT FACE="courier"><FONT SIZE=2>if r = &quot;&quot; then exit 16</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR><BR>Get the collections selected on the main menu,
+and ask for them, if none selected Then find the indivudual
+collection codes from the array ArtColl.* . </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+     <FONT FACE="courier"><FONT SIZE=2>&quot;ACTCOLL&quot; </FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>if actColl.1 = &quot;&quot; then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>say &quot;Enter the collection code(s) or select them on the menu window&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>pull actColl.1</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>nColl = 0</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>ac = strip(translate(ActColl.1, &quot; &quot;, &quot;,&quot;))</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>i=index(ac, &quot; &quot;)</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>do while i&gt;0</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>nColl = nColl + 1</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>Coll.nColl = substr(ac, 1, i-1)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>ac = strip(substr(ac, i+1))</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>i=index(ac, &quot; &quot;)</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>nColl = nColl + 1</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>Coll.nColl = strip(ac)</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR><BR>per register specify: </FONT>
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Command REGEXP or
+	REXX: whether you use RegExp (and give the expression) or ReXX
+	(program always terms.rex) </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>Command R to define
+	which fields to add to the register </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>optional: command
+	CREATE to create the register. Otherwise the user sees what is
+	specifies and needs to continue manually. </FONT>
+	</P>
+	<LI><P><FONT SIZE=2>optional: command SHOW to pass directly to the
+	display screen, with specification of the layout to be used. </FONT>
+	</P>
+</UL>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+     <FONT FACE="courier"><FONT SIZE=2>if r = 1 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;REGEXP .*&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;0&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;CREATE&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then call DoShow(&quot;NewList&quot;)  </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else say &quot;No data for collection:&quot; ActColl.1</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>if r = 2 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;REXX&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;nr&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;CREATE&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then call DoShow(&quot;LocList&quot;)  </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else say &quot;No data for collection:&quot; ActColl.1</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>if r = 3 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;REGEXP .*&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;nr&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;CREATE&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then call DoShow(&quot;Inventory&quot;)  </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else say &quot;No data for collection:&quot; ActColl.1</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>if r = 4 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;REGEXP .*&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;in&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;de&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;CREATE&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then call DoShow(&quot;inrvReg&quot;)  </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else say &quot;No data for collection:&quot; ActColl.1</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>if r = 5 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;REGEXP \w*&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;rv&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;in&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;on&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;io&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;go&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;po&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;oo&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;CREATE&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then call DoShow(&quot;inrvReg&quot;)  </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else say &quot;No data for collection:&quot; ActColl.1</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>if r = 6 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;REGEXP \w*&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;rv&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;in&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;on&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;io&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;go&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;po&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>call AddR(&quot;oo&quot;)</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;CREATE&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then call DoShow(&quot;GenIdx&quot;)  </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else say &quot;No data for collection:&quot; ActColl.1</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>exit erc</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR><BR>Routines, to simplify the program, Specify the
+field to register for each collection </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>AddR: </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>parse arg vld </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>do i=1 to nColl</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>&quot;R&quot; Coll.i vld</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>return</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR><BR>Specify the layout for each collection in the
+display screen </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>DoShow: </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>parse arg lay </FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>sp = &quot;&quot;</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>do i=1 to nColl</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>sp = sp Coll.i lay</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>&quot;SHOW&quot; strip(sp)</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>return</FONT></FONT></PRE><P>
+<BR><BR>
+</P>
+<P><A NAME="so"></A><FONT SIZE=2><FONT SIZE=5>Sorting</FONT> </FONT>
+</P>
+<P><FONT SIZE=2>Writing a ReXX program to create a sort-key from a
+text</FONT></P>
+<P><FONT SIZE=2>Usually the fields on which you sort, contain the
+correct values for ordering, which is done in uppercase. But if the
+field should be modified, before being used as a sort key, you should
+check the FldSExit checkbox for each required field in Collections in
+Maintenance and edit the SortExit.rex program accordingly. </FONT>
+</P>
+<P><FONT SIZE=2>The sample program returns the text in lowercase. It
+hase no sense as the text is ordered without considering the case,
+but it acts as a sample program. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* Edit text for sorting, returns variable T */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>You are passed the Collection code, the field code
+and the text of the field. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>parse arg CollCode FldCode text</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>lower text</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>The text in the variable t will be used in the sort
+key. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>t = text</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>exit 0</FONT></FONT></PRE><P>
+<BR><BR>
+</P>
+<P><A NAME="dp"></A><FONT SIZE=2><FONT SIZE=5>Display and print</FONT>
+</FONT>
+</P>
+<P><FONT SIZE=2>You may edit the text of a field just before it&rsquo;s
+text is printed. You might have added extra information in a field,
+that should not always be printed, for example a code for internal
+use, that is cancelled, when printing an external version of an
+entity. To activate the Rexx program, check the FldPExit box for each
+required field in Collections in Maintenance and edit the
+PRINTEXIT.rex program accordingly. The sample provided only
+translates the text to uppercase. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* Edit text before printing, returns variable T */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>parse arg CollCode FldCode SeqNrs text</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>You are passed the collectioncode, the fieldcode,
+the internal field sequence numbers and the text to edit. You might
+introduce some feature, for instance, to store text in such a way
+that it is sorted in one way and printed in another, thus allowing to
+order numbers on the corresponding position for the word that it
+represents (even depending on the language), so that for instance the
+text &quot;The magnificent seven 7&quot; sorts as &quot;The
+magnificent seven&quot; and displays as &quot;The magnificent 7&quot;
+</FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>upper text</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>Return a Rexx-variable T with the edited text. </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>t = text</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>exit 0</FONT></FONT></PRE><P>
+<FONT SIZE=2>There's one command available: GET collection int-nr
+fieldcode sequencenr. This wil read the database and returns the text
+of the specified data item in variable T</FONT></P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"><FONT FACE="courier"><FONT SIZE=2>GET ARCH 4 TI 3</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>text = t</FONT></FONT>
+</PRE><P>
+<A NAME="sq"></A><FONT SIZE=2>returns the text in field TI, seqnr 3,
+of collection ARCH.</FONT></P>
+<P><FONT SIZE=2><FONT SIZE=5>Standard queries</FONT> </FONT>
+</P>
+<P><FONT SIZE=2>To prepare any number of standard interrogations to
+the database (for the inexperienced user), write a rexx program named
+SEARCH.rex in the installation directory. A sample is provided.: </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* SEARCH fill in standard questions */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>erc = 0</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>parse arg type </FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>select</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>when type = &quot;I&quot; then do</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>lf = x2c(&quot;0D0A&quot;)</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>r = 0</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>do while r &lt; 1 | r &gt; 2</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>say &quot;Select the question&quot; lf &quot;1 Beatles&quot; lf &quot;2 Stones&quot;</FONT></FONT>
+       <FONT FACE="courier"><FONT SIZE=2>pull r</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>if r=1 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;S 1 | = AR Beatles&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;S 2 | = TI Beatles&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;SEARCH&quot; </FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+     <FONT FACE="courier"><FONT SIZE=2>if r=2 then do</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;S 1 | = AR Rolling&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;S 2 &amp; = AR Stones&quot;</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;COLL ALP 45R&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>&quot;SEARCH&quot; </FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>if rc = 0 then &quot;SHOW ALP lp1 45R p2&quot; </FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+  <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>exit erc</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>You issue commands, that fill in the various fields
+of the search screen: </FONT>
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>S to specify (from 1
+	to 9) the search criteria with operator, comparator, indexcode or *,
+	and the term to search for. </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>COLL to specify the
+	collections to include in the search (separated by comma). </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>COLLSEQ to specify
+	the collection internal sequence numbers, that limit the search
+	(separated by space).This is a hidden option on the screen, when you
+	know in advance which internal sequencenumbers are the limits of the
+	block of entities to be included in the search. Of cource, it's only
+	usefull if the collection is divided into logical groups. </FONT>
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT SIZE=2>SEARCH to perform the
+	search (rc = 4 if nothing is found) </FONT>
+	</P>
+	<LI><P><FONT SIZE=2>SHOW to proceed immediately to the print screen,
+	using the given printspecs for immediate display. Name pairs of
+	codes: collection printlayout collection printlayout collection
+	printlayout etc. </FONT>
+	</P>
+</UL>
+<P><FONT SIZE=2>As for now there is only the type I as parameter. </FONT>
+</P>
+<P><A NAME="ed"></A><FONT SIZE=2><FONT SIZE=5>Edit (standardize)
+query terms</FONT> </FONT>
+</P>
+<P><FONT SIZE=2>When the user enters a term for a specific type of
+term, you may edit it before using it in a search. You for instance,
+may have a datefield in the index and edit the value entered by the
+user to apply the standard format. You should check the FldQExit box
+in the collection field definition that defines that type of term.
+Any time that the user completes the text to be searched for,
+QueryExit.rex will be executed. <BR>A sample follows: </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>/* Edit text before searching, returns variable T */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>trace n</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>signal on novalue</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>parse arg TermCode TermText</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>t = TermText</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>upper TermCode</FONT></FONT></PRE><P>
+<FONT SIZE=2><BR>Suppose that there are fields defined with a
+FldTermType of DT, DR, DS and AD, which represent date values, stored
+as yyyy-mm-dd. To query these dates, the user should use the exact
+format or you need to write an exit to adapt the values, if a date is
+searched for. Prerequisit is that the user specifies the type of term
+he is looking for, for no program can guess where he means a value to
+be a date. But specifying the type is always a good practice! </FONT>
+</P>
+<PRE STYLE="margin-left: 1cm; margin-right: 1cm"> 
+<FONT FACE="courier"><FONT SIZE=2>if pos(TermCode,&quot;DT DR DS AD &quot;)&gt;0 then do  </FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>/* dates in format d m y  |  d/m/y  |  d-m-y  | yyyy m d  |  yyyy/m/d   |  yyyy-m-d */ </FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>if words(t) = 3 then  </FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>parse var t d m y</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>else if words(t) = 2 then do  </FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>parse var t d m </FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>y = left(date(&quot;S&quot;),4)</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>else if index(t,&quot;/&quot;) &gt; 0 then</FONT></FONT>
+           <FONT FACE="courier"><FONT SIZE=2>parse var t y &quot;/&quot; m &quot;/&quot; d</FONT></FONT>
+        <FONT FACE="courier"><FONT SIZE=2>else</FONT></FONT>
+           <FONT FACE="courier"><FONT SIZE=2>parse var t y &quot;-&quot; m &quot;-&quot; d</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>d = strip(d)</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>m = strip(m)</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>y = strip(y) </FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>if length(y) = 2 &amp; length(d) = 4 then do</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>x = d  </FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>d = y</FONT></FONT>
+      <FONT FACE="courier"><FONT SIZE=2>y = x</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>if y &lt; 99 then y = y + 2000 /* 2 digits: add 20 */</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>if y &lt; 999 then y = y + 1000 /* 3 digits: add 1 */</FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>t = y || &quot;/&quot; || right(&quot;0&quot;||m,2) ||  &quot;/&quot; || right(&quot;0&quot;||d,2)  </FONT></FONT>
+   <FONT FACE="courier"><FONT SIZE=2>exit 0 /* edit the text: t is the new value */</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>end</FONT></FONT>
+<FONT FACE="courier"><FONT SIZE=2>exit 4 /* leave unchanged */</FONT></FONT></PRE><P>
+<BR><BR>
+</P>
+</BODY>
+</HTML>

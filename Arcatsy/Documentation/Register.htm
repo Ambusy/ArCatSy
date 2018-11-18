@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<TITLE>Register or Index.</TITLE>
+</HEAD>
+<BODY>
+
+<FONT SIZE=3>List entities in a Register or an Index</font>
+<FONT SIZE=2><P>A register (or an index) lists all entities of one or more collections
+ordered by an identicative element (or several elements) from each entity, ordered by 
+this element. An entity thus appears as many times as elements are extracted from it. 
+<br>To create and display a register, on the main menu 
+<br><IMG SRC="Menu4.jpg"><br>  
+click on Create a register (<IMG SRC="spviolet.jpg">)
+<P>
+On the register screen,<br><IMG SRC="Register1.jpg"><br>   
+you'll have to enter a lot of data, to create the register. 
+Fortunately there is a procedure to specify a list of standard registers and you  
+may choose one of them with de Predefined (<IMG SRC="spdgreen.jpg">) button. If no predefined 
+registers are prepared, the button does not show. See <A HREF="Userexits.htm#sr">Standard register </A> 
+about details how to create predefined registers.
+<p>To create a register from scratch, you need to enter these data: 
+<ul><li>Choose between extraction of register element(s) with  
+<ul><li><A HREF="Regular expressions.htm">Regular expressions </A> and you furnish the expression 
+(<IMG SRC="spblue.jpg">).
+Often used expressions are: 
+<ul><li>\w* to extract each word from the text in the field of the entity as a register term
+<li>\d* to extract each number from the text  
+<li>.* to consider the whole text as one term</ul> 
+<li>A ReXX program named Register.rex(<IMG SRC="spdgrey.jpg">).   
+Details on how to write a program to extract terms from a field's text are found in
+<A HREF="Userexits.htm#ri">Registers and query indexing</A>. 
+</ul> 
+<li>Uncheck the box (<IMG SRC="spdviolet.jpg">)for converting to lowercase, if terms written differently are to be considered 
+unequal.
+<li>Name the file (<IMG SRC="spblue2.jpg">) that will contain the keylist, resulting from the creation. 
+The list may be re-used to print the register again, without re-creating it. 
+<li>Open the list (<IMG SRC="sprosa.jpg">)for each collection, that you want to include in the register 
+and check each field(<IMG SRC="spbrown.jpg">), that is to be examined with the regular expression or with the ReXX program, 
+to furnish terms for the register. 
+</ul> 
+You may now create the register(<IMG SRC="spyellow.jpg">)<p> 
+<br><IMG SRC="Register2.jpg"><br>To view the register click Print(<IMG SRC="spyellow.jpg">)     
+to find yourself on the already known screen to display data. Choose a layout suitable
+for a register, otherwise you'll not get the extracted terms. A suitable layout might be: <p>
+<IMG SRC="Layout2.jpg"> <br> that shows the collection code once, each internal sequence number
+the artist and the title.<br><IMG SRC="Register3.jpg"><p>
+<p><A HREF="Sorting.htm">Next chapter</A>
+</FONT></BODY>
+</HTML>

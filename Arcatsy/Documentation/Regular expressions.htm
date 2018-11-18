@@ -1,0 +1,853 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>Regular expressions - An introduction</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.2  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="m b">
+	<META NAME="CHANGED" CONTENT="20110428;10141600">
+	<META NAME="CHANGEDBY" CONTENT="m b">
+	<META NAME="CHANGEDBY" CONTENT="m b">
+	<STYLE TYPE="text/css">
+	<!--
+		H2.cjk { font-family: "SimSun" }
+		H2.ctl { font-family: "Mangal" }
+		H3.cjk { font-family: "SimSun" }
+		H3.ctl { font-family: "Mangal" }
+		A:link { color: #0000ff }
+		CODE.cjk { font-family: "NSimSun", monospace }
+		A:visited { color: #800080 }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="it-IT" LINK="#0000ff" VLINK="#800080" DIR="LTR">
+<H2 CLASS="western">Regular expressions - An introduction</H2>
+<P><FONT SIZE=2>Regular expressions are a pattern matching standard
+for string parsing and replacement. They are used on a wide range of
+platforms and programming environments. Originally missing in Visual
+Basic, regular expressions are now available for most VB and VBA
+versions. </FONT>
+</P>
+<P><FONT SIZE=2>Regular expressions, or </FONT><EM><FONT SIZE=2>regexes</FONT></EM>
+<FONT SIZE=2>for short, are a way to match text with patterns. They
+are a powerful way to find and replace strings that take a defined
+format. For example, regular expressions can be used to parse dates,
+urls and email addresses, log files, configuration files, command
+line switches or programming scripts. </FONT>
+</P>
+<P><FONT SIZE=2>Since regexes are language independent, we're trying
+to keep this article as language independent as possible. However,
+it's to be noted that not all regex implementations are the same. The
+below text is based on Perl 5.0. This is also the format that Regexp
+for VB/VBA uses. Some implementations may not handle all expressions
+the same way. </FONT>
+</P>
+<H2 CLASS="western">Regex syntax</H2>
+<P><FONT SIZE=2>In it's simplest form, a regular expression is a
+string of symbols to match &quot;as is&quot;. </FONT>
+</P>
+<TABLE WIDTH=178 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=36%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=64%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=36%>
+			<P><FONT SIZE=2>abc</FONT></P>
+		</TD>
+		<TD WIDTH=64%>
+			<P><EM><FONT SIZE=2>abc</FONT></EM><FONT SIZE=2>abcabc</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=36%>
+			<P><FONT SIZE=2>234</FONT></P>
+		</TD>
+		<TD WIDTH=64%>
+			<P><FONT SIZE=2>1</FONT><EM><FONT SIZE=2>234</FONT></EM><FONT SIZE=2>5</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>That's not very impressive yet. But you can see that
+regexes match the first case found, once, anywhere in the input
+string. </FONT>
+</P>
+<H3 CLASS="western">Quantifiers</H3>
+<P><FONT SIZE=2>So what if you want to match several characters? You
+need to use a quantifier. The most important quantifiers are </FONT><CODE CLASS="western">*?+</CODE><FONT SIZE=2>.
+They may look familiar to you from, say, the dir statement of DOS,
+but they're not exactly the same.<BR>* matches any number of what's
+before it, from zero to infinity. <BR>? matches zero or one.<BR>+
+matches one or more.</FONT></P>
+<TABLE WIDTH=306 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=21%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=79%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=21%>
+			<P><FONT SIZE=2>23*4</FONT></P>
+		</TD>
+		<TD WIDTH=79%>
+			<P><FONT SIZE=2>1</FONT><EM><FONT SIZE=2>24</FONT></EM><FONT SIZE=2>5,
+			1</FONT><EM><FONT SIZE=2>234</FONT></EM><FONT SIZE=2>5, 1</FONT><EM><FONT SIZE=2>2334</FONT></EM><FONT SIZE=2>5</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=21%>
+			<P><FONT SIZE=2>23?4</FONT></P>
+		</TD>
+		<TD WIDTH=79%>
+			<P><FONT SIZE=2>1</FONT><EM><FONT SIZE=2>24</FONT></EM><FONT SIZE=2>5,
+			1</FONT><EM><FONT SIZE=2>234</FONT></EM><FONT SIZE=2>5</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=21%>
+			<P><FONT SIZE=2>23+4</FONT></P>
+		</TD>
+		<TD WIDTH=79%>
+			<P><FONT SIZE=2>1</FONT><EM><FONT SIZE=2>234</FONT></EM><FONT SIZE=2>5,
+			1</FONT><EM><FONT SIZE=2>2334</FONT></EM><FONT SIZE=2>5</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>By default, regexes are greedy. They take as many
+characters as possible. In the next example, you can see that the
+regex matches as many 2's as there are. </FONT>
+</P>
+<TABLE WIDTH=152 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=42%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=58%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=42%>
+			<P><FONT SIZE=2>2*</FONT></P>
+		</TD>
+		<TD WIDTH=58%>
+			<P><FONT SIZE=2>1</FONT><EM><FONT SIZE=2>2222</FONT></EM><FONT SIZE=2>3</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>There is also stingy matching available that matches
+as few characters as possible, but let's leave it this time. There
+are also more quantifiers than those mentioned.</FONT></P>
+<H3 CLASS="western">Special characters</H3>
+<P><FONT SIZE=2>A lot of special characters are available for regex
+building. Here are some of the more usual ones.</FONT></P>
+<TABLE WIDTH=622 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>.</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>The dot matches any single character.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\n</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a newline character (or CR+LF
+			combination).</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\t</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a tab (ASCII 9).</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\d</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a digit [0-9].</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\D</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a non-digit.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\w</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches an alphanumeric character.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\W</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a non-alphanumeric character.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\s</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a whitespace character.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\S</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Matches a non-whitespace character.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>\</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Use \ to escape special characters. For example,
+			\. matches a dot, and \\ matches a backslash.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>^</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Match at the beginning of the input string.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=3%>
+			<P><FONT SIZE=2>$</FONT></P>
+		</TD>
+		<TD WIDTH=97%>
+			<P><FONT SIZE=2>Match at the end of the input string.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>Here are some likely uses for the special characters.
+</FONT>
+</P>
+<TABLE WIDTH=370 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>1.3</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><EM><FONT SIZE=2>123</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>1z3</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>133</FONT></EM></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>1.*3</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><EM><FONT SIZE=2>13</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>123</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>1zdfkj3</FONT></EM></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>\d\d</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><EM><FONT SIZE=2>01</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>02</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>99</FONT></EM><FONT SIZE=2>, ..</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>\w+@\w+</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><EM><FONT SIZE=2>a@a</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>email@company.com</FONT></EM></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><CODE CLASS="western">^</CODE> <FONT SIZE=2>and </FONT><CODE CLASS="western">$</CODE>
+<FONT SIZE=2>are important to regexes. Without them, regexes match
+anywhere in the input. With </FONT><CODE CLASS="western">^</CODE> <FONT SIZE=2>and
+</FONT><CODE CLASS="western">$</CODE> <FONT SIZE=2>you can make sure
+to match only a full string, the beginning of the input, or the end
+of the input. </FONT>
+</P>
+<TABLE WIDTH=536 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=14%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=38%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+		<TD WIDTH=48%>
+			<P><FONT SIZE=2><B>Does not match</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=14%>
+			<P><FONT SIZE=2>^1.*3$</FONT></P>
+		</TD>
+		<TD WIDTH=38%>
+			<P><EM><FONT SIZE=2>13</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>123</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>1zdfkj3</FONT></EM></P>
+		</TD>
+		<TD WIDTH=48%>
+			<P><FONT SIZE=2>x13, 123x, x1zdfkj3x</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=14%>
+			<P><FONT SIZE=2>^\d\d</FONT></P>
+		</TD>
+		<TD WIDTH=38%>
+			<P><EM><FONT SIZE=2>01</FONT></EM><FONT SIZE=2>abc</FONT></P>
+		</TD>
+		<TD WIDTH=48%>
+			<P><FONT SIZE=2>a01abc</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=14%>
+			<P><FONT SIZE=2>\d\d$</FONT></P>
+		</TD>
+		<TD WIDTH=38%>
+			<P><FONT SIZE=2>xyz</FONT><EM><FONT SIZE=2>01</FONT></EM></P>
+		</TD>
+		<TD WIDTH=48%>
+			<P><FONT SIZE=2>xyz01</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<H3 CLASS="western">Character classes</H3>
+<P><FONT SIZE=2>You can group characters by putting them between
+square brackets. This way, any character in the class will match one
+character in the input.</FONT></P>
+<TABLE WIDTH=622 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=6%>
+			<P><FONT SIZE=2>[abc]</FONT></P>
+		</TD>
+		<TD WIDTH=94%>
+			<P><FONT SIZE=2>Match any of a, b, and c.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=6%>
+			<P><FONT SIZE=2>[a-z]</FONT></P>
+		</TD>
+		<TD WIDTH=94%>
+			<P><FONT SIZE=2>Match any character between a and z. (ASCII order)</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=6%>
+			<P><FONT SIZE=2>[^abc]</FONT></P>
+		</TD>
+		<TD WIDTH=94%>
+			<P><FONT SIZE=2>A caret ^ at the beginning indicates &quot;not&quot;.
+			In this case, match anything other than a, b, or c.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=6%>
+			<P><FONT SIZE=2>[+*?.]</FONT></P>
+		</TD>
+		<TD WIDTH=94%>
+			<P><FONT SIZE=2>Most special characters have no meaning inside the
+			square brackets. This expression matches any of +, *, ? or the
+			dot.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>Here are some sample uses. </FONT>
+</P>
+<TABLE WIDTH=622 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=29%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+		<TD WIDTH=47%>
+			<P><FONT SIZE=2><B>Does not match</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>[^ab]</FONT></P>
+		</TD>
+		<TD WIDTH=29%>
+			<P><EM><FONT SIZE=2>c</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>d</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>z</FONT></EM></P>
+		</TD>
+		<TD WIDTH=47%>
+			<P><FONT SIZE=2>ab</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>^[1-9][0-9]*$</FONT></P>
+		</TD>
+		<TD WIDTH=29%>
+			<P><FONT SIZE=2>Any positive integer</FONT></P>
+		</TD>
+		<TD WIDTH=47%>
+			<P><FONT SIZE=2>Zero, negative or decimal numbers</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>[0-9]*[,.]?[0-9]+</FONT></P>
+		</TD>
+		<TD WIDTH=29%>
+			<P><EM><FONT SIZE=2>.1</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>1</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>1.2</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>100,000</FONT></EM></P>
+		</TD>
+		<TD WIDTH=47%>
+			<P><FONT SIZE=2>12.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<H3 CLASS="western">Grouping and alternatives</H3>
+<P><FONT SIZE=2>It's often necessary to group things together with
+parentheses ( and ). </FONT>
+</P>
+<TABLE WIDTH=512 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=45%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+		<TD WIDTH=35%>
+			<P><FONT SIZE=2><B>Does not match</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>(ab)+</FONT></P>
+		</TD>
+		<TD WIDTH=45%>
+			<P><EM><FONT SIZE=2>ab</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>abab</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>ababab</FONT></EM></P>
+		</TD>
+		<TD WIDTH=35%>
+			<P><FONT SIZE=2>aabb</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>(aa|bb)+</FONT></P>
+		</TD>
+		<TD WIDTH=45%>
+			<P><EM><FONT SIZE=2>aa</FONT></EM><FONT SIZE=2>, </FONT><EM><FONT SIZE=2>bbaa</FONT></EM><FONT SIZE=2>,
+			</FONT><EM><FONT SIZE=2>aabbaaaa</FONT></EM></P>
+		</TD>
+		<TD WIDTH=35%>
+			<P><FONT SIZE=2>abab</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>Notice the </FONT><CODE CLASS="western">|</CODE>
+<FONT SIZE=2>operator. This is the Or operator that takes any of the
+alternatives. </FONT>
+</P>
+<P><FONT SIZE=2>With parentheses, you can also define subexpressions
+to remember after the match has happened. In the below example, the
+string what is between (.) </FONT>
+</P>
+<TABLE WIDTH=331 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=46%>
+			<P><FONT SIZE=2><B>Regex</B></FONT></P>
+		</TD>
+		<TD WIDTH=27%>
+			<P><FONT SIZE=2><B>Matches</B></FONT></P>
+		</TD>
+		<TD WIDTH=27%>
+			<P><FONT SIZE=2><B>Stores</B></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=46%>
+			<P><FONT SIZE=2>a(\d+)a</FONT></P>
+		</TD>
+		<TD WIDTH=27%>
+			<P><EM><FONT SIZE=2>a12a</FONT></EM></P>
+		</TD>
+		<TD WIDTH=27%>
+			<P><FONT SIZE=2>12</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=46%>
+			<P><FONT SIZE=2>(\d+)\.(\d+)</FONT></P>
+		</TD>
+		<TD WIDTH=27%>
+			<P><EM><FONT SIZE=2>1.2</FONT></EM></P>
+		</TD>
+		<TD WIDTH=27%>
+			<P><FONT SIZE=2>1 and 2</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>In these examples, what is matched by (\d+) gets
+stored. The regex engine will allow you to retrieve the stored value
+by a successive call. The implementation of the call varies. In
+Regexp for VB/VBA, you call RegExprResult(1) to get the first stored
+value, RegExprResult(2) to get the second one, and so on. This way
+you can retrieve fields for further processing.</FONT></P>
+<P>&nbsp;</P>
+<H3 CLASS="western">Case sensitivity</H3>
+<P><FONT SIZE=2>So are regexes case sensitive? Yes and no. They are
+both. It depends on the way you write the regex call in the
+programming language. Refer to the documentation of your programming
+language or regex implementation on how to write the calls. </FONT>
+</P>
+<P>&nbsp;</P>
+<H3 CLASS="western">Advanced syntax</H3>
+<P><FONT SIZE=2>The above is in no way a complete description of
+regexes. There are more ways to write them, more special characters,
+and more quantifiers available. What's available depends also on the
+implementation. Some regex engines don't implement all of the
+possibilities, rendering them not so usable for every purpose. In
+case you're interested in learning a more complete set of regexes,
+see the help file of Regexp for VB/VBA. It's available for free
+download. </FONT>
+</P>
+<P>&nbsp;</P>
+<H2 CLASS="western">Regex examples</H2>
+<P><FONT SIZE=2>Here are a few practical examples of regular
+expressions. They are provided for learning purposes. In real
+applications, you should carefully design your regexes to match the
+exact use. </FONT>
+</P>
+<P>&nbsp;</P>
+<H3 CLASS="western">Email matching</H3>
+<P><FONT SIZE=2>It's often necessary to check if a string is an email
+address or not. Here's one way to do it. </FONT>
+</P>
+<P><CODE CLASS="western">^[A-Za-z0-9_\.-]+@[A-Za-z0-9_\.-]+[A-Za-z0-9_][A-Za-z0-9_]$
+</CODE>
+</P>
+<P><FONT SIZE=2>Explanation </FONT>
+</P>
+<TABLE WIDTH=622 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=19%>
+			<P><FONT SIZE=2>^[A-Za-z0-9_\.-]+</FONT></P>
+		</TD>
+		<TD WIDTH=81%>
+			<P><FONT SIZE=2>Match a positive number of acceptable characters
+			at the start of the string.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=19%>
+			<P><FONT SIZE=2>@</FONT></P>
+		</TD>
+		<TD WIDTH=81%>
+			<P><FONT SIZE=2>Match the @ sign.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=19%>
+			<P><FONT SIZE=2>[A-Za-z0-9_\.-]+</FONT></P>
+		</TD>
+		<TD WIDTH=81%>
+			<P><FONT SIZE=2>Match any domain name, including a dot.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=19%>
+			<P><FONT SIZE=2>[A-Za-z0-9_][A-Za-z0-9_]$</FONT></P>
+		</TD>
+		<TD WIDTH=81%>
+			<P><FONT SIZE=2>Match two acceptable characters but not a dot.
+			This ensures that the email address ends with .xx, .xxx, .xxxx
+			etc.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>This example works for most cases but is not written
+based on any standard. It may accept non-working email addresses and
+reject working ones. Fine-tuning is required. </FONT>
+</P>
+<P>&nbsp;</P>
+<H3 CLASS="western">Parsing dates</H3>
+<P><FONT SIZE=2>Date strings are difficult to parse because there are
+so many variations. You can't always trust VB's own date conversion
+functions as the date may come in an unexpected or unsupported
+format. Let's assume we have a date string in the following format:
+2002-Nov-14. </FONT>
+</P>
+<P><CODE CLASS="western">^\d\d\d\d-[A-Z][a-z][a-z]-\d\d$ </CODE>
+</P>
+<P><FONT SIZE=2>Explanation </FONT>
+</P>
+<TABLE WIDTH=623 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>^\d\d\d\d</FONT></P>
+		</TD>
+		<TD WIDTH=80%>
+			<P><FONT SIZE=2>Match four digits that make up the year.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>-</FONT></P>
+		</TD>
+		<TD WIDTH=80%>
+			<P><FONT SIZE=2>Match the separator dash.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>[A-Z][a-z][a-z]</FONT></P>
+		</TD>
+		<TD WIDTH=80%>
+			<P><FONT SIZE=2>Match a 3-letter month name. The first letter is
+			in upper case.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>-</FONT></P>
+		</TD>
+		<TD WIDTH=80%>
+			<P><FONT SIZE=2>Match the separator dash.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=20%>
+			<P><FONT SIZE=2>\d\d$</FONT></P>
+		</TD>
+		<TD WIDTH=80%>
+			<P><FONT SIZE=2>Match two digits that make up the day.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>If a match is found, you can be sure that the input
+string is formatted like a date. However, a regex is not able to
+verify that it's a real date. For example, it could as well be
+5400-Qui-32. This doesn't look like an acceptable date to most
+applications. If you want to prepare yourself for the stranger dates,
+you'll have to write a more limiting expression: </FONT>
+</P>
+<P><CODE CLASS="western">^20\d\d-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(0[1-9]|[1-2][0-9]|3[01])$
+</CODE>
+</P>
+<P><FONT SIZE=2>Explanation </FONT>
+</P>
+<TABLE WIDTH=622 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>^20\d\d</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><FONT SIZE=2>Match four digits that make up the year. The year
+			must be between 2000 and 2099. No other dates please!</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>-</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><FONT SIZE=2>Match the separator dash.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>(Jan|Feb|Mar|Apr |May|Jun|Jul|Aug
+			|Sep|Oct|Nov|Dec)</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><FONT SIZE=2>Match the month abbreviation in English. Now you
+			don't accept the date in any other language.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>-</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><FONT SIZE=2>Match the separator dash.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=24%>
+			<P><FONT SIZE=2>(0[1-9]|[1-2][0-9]|3[01])$</FONT></P>
+		</TD>
+		<TD WIDTH=76%>
+			<P><FONT SIZE=2>Match two digits that make up the day. This
+			accepts numbers from 01 to 09, 10 to 29 and 30 to 31. What if the
+			user gives 2003-Feb-31? There are limitations to what regexes can
+			do. If you want to validate the string further, you need to use
+			other techniques than regexes.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<H3 CLASS="western">&nbsp;</H3>
+<H3 CLASS="western">Web logs</H3>
+<P><FONT SIZE=2>Web server logs come in several formats. This is a
+typical line in a log file.</FONT></P>
+<P><CODE CLASS="western">144.18.39.44 - - [01/Sep/2002:00:03:20
+-0700] &quot;GET /resources.html HTTP/1.1&quot; 200 3458
+&quot;http://www.ycom.com/&quot; &quot;Mozilla/4.0 (compatible; MSIE
+6.0; Windows NT 5.1)&quot; </CODE>
+</P>
+<P><FONT SIZE=2>As you can see, there are several fields on the line.
+They conform to a complex format. The fields are different from each
+other. A human-readable way to define the various fields is here:</FONT></P>
+<P><CODE CLASS="western">host - - [date] &quot;GET URL HTTP/1.1&quot;
+status size &quot;ref&quot; &quot;agent&quot;</CODE> 
+</P>
+<P><FONT SIZE=2>As you can see, there are fields such as host
+(visitor's Internet address), date and time (enclosed in square
+brackets), an HTTP request with file to retrieve (enclosed in
+quotation marks), numeric status code, numeric size of file, referrer
+field (enclosed in quotation marks), and agent (browser) name
+(enclosed in quotation marks). </FONT>
+</P>
+<P><FONT SIZE=2>To programmatically parse the line, you need to split
+it into fields, then look at each field. This is a sample regex that
+will split the fields. </FONT>
+</P>
+<P><CODE CLASS="western">^(\S*) - - \[(.*) .....\] \&quot;....? (\S*)
+.*\&quot; (\d*) ([-0-9]*) (\&quot;([^&quot;]+)\&quot;)?</CODE> 
+</P>
+<P><FONT SIZE=2>Explanation</FONT></P>
+<TABLE WIDTH=622 BORDER=0 CELLPADDING=2 CELLSPACING=0>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>^(\S*)</FONT></P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match any number of non-space characters at the
+			start of the line.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>- - </FONT>
+			</P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match the two dashes. They are actually empty
+			fields that might have content in another log file.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>\[(.*) .....\]</FONT></P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match the date inside square brackets. The date
+			consists of a datetime string, a space, and a 5-character time
+			zone indication. To actually use the date you'd need to write a
+			more detailed regex to separate the year, month, day, hour,
+			minute, and second.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>\&quot;....? (\S*) .*\&quot;</FONT></P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match the HTTP request inside quotation marks.
+			First there is a 3 to 4-character verb, such as GET, POST or HEAD.
+			(\S*) matches the actual file that is being retrieved. At the end,
+			.* matches HTTP/1.1 or whatever protocol was used to retrieve the
+			file.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>(\d*)</FONT></P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match a numeric status code.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>([-0-9]*)</FONT></P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match a numeric file size, or - if no number is
+			present.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P><FONT SIZE=2>(\&quot;([^&quot;]+)\&quot;)?</FONT></P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>Match the &quot;ref&quot; field. It's anything
+			enclosed in quotation marks.</FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=11%>
+			<P>&nbsp;</P>
+		</TD>
+		<TD WIDTH=89%>
+			<P><FONT SIZE=2>In this example, we've left &quot;agent&quot;
+			unmatched. That does no harm because $ is not used to match the
+			end-of-line. We can leave &quot;agent&quot; unmatched if we're not
+			interested in the field.</FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><FONT SIZE=2>This example has been taken from a web log file
+parser script. To use it in your own code, you have to fine-tune it
+to suit your log file format. The regex assumes that lines come only
+in the presented format. If, say, a field is missing or the file
+contains garbage lines, the regex may fail. This results in an
+unparsed line. </FONT>
+</P>
+<P>&nbsp;</P>
+<P><FONT SIZE=2>This document is based on documentation by AiVosto
+</FONT><A HREF="http://www.aivosto.com">http://www.aivosto.com/</A><CODE CLASS="western">,
+</CODE><FONT SIZE=2>provider of utilities for programmers.
+http://www.aivosto.com/index.html</FONT></P>
+</BODY>
+</HTML>

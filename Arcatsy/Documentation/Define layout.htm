@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Define the layout for display and print</TITLE>
+</HEAD>
+<BODY>
+<FONT SIZE=2><P>To define the layout for display and printing the text of an entity, 
+<p>on the main menu <br><IMG SRC="Menu1.jpg"><p>click Maintenance(<IMG SRC="spot1.jpg">), 
+and on the maintenance screen <br><IMG SRC="Maintenance6a.jpg"> 
+<p>choose Print Layouts (<IMG SRC="spuviolet.jpg">) <p>
+ <IMG SRC="Layout1.jpg">
+<P>In the grid marked <IMG SRC="spot1.jpg"> select the code of the collection, for
+which you are about to enter (or modify) a layout (<IMG SRC="spblue2.jpg">). </P>
+<P>In the grid marked <IMG SRC="spot2.jpg"> click on the last (the empty) cell PrtSpec (<IMG SRC="spyellow.jpg">) 
+and insert a code for the layout. This code will be presented to the user when searching
+or printing, so choose a meaningfull name. Here I chose L45R, the code that I already
+specified once, in the collection definition grid, as the default layout for the collection.
+A collection may have as many layouts as you wish. A layout may be assigned to many
+different collections, if the collections have similar fields.</P>
+Click on Save (<IMG SRC="spgreen.jpg">) to create the layout and then click on Details of spec
+(<IMG SRC="sprosa.jpg">) to start inserting the details of the layout. If you forget to Save first, you'll  
+get an error message: <IMG SRC="Err1.jpg"><br>Close the window and save before continuing.
+<P>Specifying the layout is a very precise job. It would be best, to write a piece of native Html
+with some data, to see how you want the layout to be. Next you split it up into pieces to insert 
+a piece at a time in the details. 
+If I want my 45R to look like this: 
+<table>
+<tr><td valign=top>Artist 1</td><td>A-side title<br>B-side title; next title</td><td>1970</td></tr>
+<tr><td valign=top> </td><td>another A-side<br>B-side<br></td><td>1971</td></tr>
+<tr><td valign=top>Artist 2</td><td>A-size<br></td><td>1970</td></tr>
+<tr><td valign=top> </td><td>different A-side<br>B-side<br></td><td>1973</td></tr>
+</table>
+so that I create 3 columns with artist, titles and year, omitting the artist if the name is the same, 
+I would write this HTML: <IMG SRC="Lhtm.jpg"><br>
+and then insert it in the definitions: <IMG SRC="Layout defined.jpg"><br>
+First I'll describe what is meant with each of the columns. 
+<br><IMG SRC="spblue2.jpg"> PrtSpec repeats the code of the layout, that I'm creating 
+<br><IMG SRC="spblue.jpg"> PrtOrder puts the pieces in the correct order. 0 and 1 have a special 
+meaning, so the actual items start with 11. 
+<br>0 specifies text, that will be inserted just after &lt;BODY&gt;. 1 specifies text, that will 
+be inserted just before &lt;/BODY&gt;. In this example the whole will be presented as a TABLE, 
+and its definition is done once. All other items will be repeated for each entity to be displayed. 
+<br><IMG SRC="spbrown.jpg"> FldCode names the field to print next. Again there are special codes: 0, 1, 2, 3.
+0 prints the collection code, 
+1 prints the internal sequence number of the entity,  
+2 prints the register term as created by the register production facility,
+3 prints nothing and may be used to insert text with the fields BeforeFirstField, 
+BetweenFields and AfterLastField, independently of existance of fields. 
+<br>You may also write an expression as follows: Fldcode->Collection:Fldcode to create your own relations
+If a field in a collection contains the internal sequencenumber of another entity (possibly in 
+another collection), you may display any field from that entity, by using this way of reference. 
+You may obtain internal numbers by display FldCode 1 in any layout. 
+<br>If in the collection a field is subordinate to another (parent - child relation) and the parent 
+is also present in the colunm FldCode, then you must maintain that order 
+by first naming the parent and below it the child. In the display the order will be: parent, children of parent, 
+2nd parent, its children, 3rd parent, children, etc. If a child is included and it's parent is not,  
+there is no restriction. 
+<br><IMG SRC="spdgreen.jpg"> BeforeFirstField gives the text that is inserted before the first 
+occurrence of a field. If you use the character _ (underscore), a space will be displayed. 
+To write an underscore use: \_ 
+This avoids the need to write &amp;nbsp; every time you need an extra space.
+You may use \# to insert the sequence number of the field being displayed.
+If a field is a subordinate one, the lowest level sequence is displayed.
+<br><IMG SRC="spdgrey.jpg"> BetweenFields gives the text that is inserted between the 
+occurrences of a field. You use the special characters _ or \#.
+<br><IMG SRC="spdviolet.jpg"> AfterLastField gives the text that is inserted after the
+last (or only) occurrence of a field. You use the special characters _ or \#. 
+<br><IMG SRC="spgreen.jpg"> IfFieldMissing gives the text that is inserted if the
+field for this entity has no values (does not occur at all). 
+<br><IMG SRC="spmascara.jpg"> IfFieldDifferent is checked, if you don't want a text to be displayed
+when its contents are equal to the text in the previous entity.</P>
+<P>
+What did I include? 
+<br>line 0: the definition of the table 
+<br>line 11: the html code to open a table line and to put the artist in a table cell. 
+It cann't be added to line 12, 
+because I don't always want to print the artist, but I always want the table cell. So I use code 3: only 
+the specified text will be displayed
+<br>line 12: display the artist 
+<br>line 13: close the artists cell and open the next cell 
+<br>line 14: display the A-side title and put what follows on a new line.
+<br>line 15: display all of the B-side or other titles and separate them by a ; and a space 
+<br>line 16: close the titles cell and open the next cell 
+<br>line 17: display the year  
+<br>line 18: Close the table cell and also the table line.  
+<br>line 1: the end of the table definition 
+</P>
+<P></P>
+<A HREF="Generate rexx.htm">Next chapter</A>
+</FONT></BODY>
+</HTML>
