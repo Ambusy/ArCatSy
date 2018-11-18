@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{19B8DA25-07A4-45A4-B11D-5385E9BAAE73}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>ArCatSy.My.MyApplication</StartupObject>
+    <RootNamespace>ArCatSy</RootNamespace>
+    <AssemblyName>ArCatSy</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\debug\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DISKS03.ICO</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RxLib, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\RxLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Data.Odbc" />
+    <Import Include="System.Data.OleDb" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.IO" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collecties.designer.vb">
+      <DependentUpon>Collecties.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Collecties.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Combos.designer.vb">
+      <DependentUpon>Combos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Combos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataEntry.designer.vb">
+      <DependentUpon>DataEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DataEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DelData.designer.vb">
+      <DependentUpon>DelData.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DelData.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExpData.designer.vb">
+      <DependentUpon>ExpData.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ExpData.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExpPrt.designer.vb">
+      <DependentUpon>ExpPrt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ExpPrt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenRexx.designer.vb">
+      <DependentUpon>GenRexx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GenRexx.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetRange.designer.vb">
+      <DependentUpon>GetRange.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GetRange.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Indiceren.designer.vb">
+      <DependentUpon>Indiceren.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Indiceren.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.vb">
+      <DependentUpon>Login.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Login.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Maintenance.designer.vb">
+      <DependentUpon>Maintenance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MkRegister.designer.vb">
+      <DependentUpon>MkRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MkRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module1.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Printen.designer.vb">
+      <DependentUpon>Printen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Printen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrtSpc.designer.vb">
+      <DependentUpon>PrtSpc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PrtSpc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrtSpcData.designer.vb">
+      <DependentUpon>PrtSpcData.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PrtSpcData.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Regexp.designer.vb">
+      <DependentUpon>Regexp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Regexp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Selectie.designer.vb">
+      <DependentUpon>Selectie.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Selectie.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectKey.designer.vb">
+      <DependentUpon>SelectKey.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SelectKey.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="Sortin.designer.vb">
+      <DependentUpon>Sortin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sortin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TeIndex.designer.vb">
+      <DependentUpon>TeIndex.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TeIndex.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Users.Designer.vb">
+      <DependentUpon>Users.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Users.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Collecties.resx">
+      <DependentUpon>Collecties.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Combos.resx">
+      <DependentUpon>Combos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataEntry.resx">
+      <DependentUpon>DataEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DelData.resx">
+      <DependentUpon>DelData.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExpData.resx">
+      <DependentUpon>ExpData.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExpPrt.resx">
+      <DependentUpon>ExpPrt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenRexx.resx">
+      <DependentUpon>GenRexx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetRange.resx">
+      <DependentUpon>GetRange.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Indiceren.resx">
+      <DependentUpon>Indiceren.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Maintenance.resx">
+      <DependentUpon>Maintenance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MkRegister.resx">
+      <DependentUpon>MkRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Printen.resx">
+      <DependentUpon>Printen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrtSpc.resx">
+      <DependentUpon>PrtSpc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrtSpcData.resx">
+      <DependentUpon>PrtSpcData.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Regexp.resx">
+      <DependentUpon>Regexp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Selectie.resx">
+      <DependentUpon>Selectie.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectKey.resx">
+      <DependentUpon>SelectKey.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sortin.resx">
+      <DependentUpon>Sortin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TeIndex.resx">
+      <DependentUpon>TeIndex.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Users.resx">
+      <DependentUpon>Users.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DISKS03.ICO" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
