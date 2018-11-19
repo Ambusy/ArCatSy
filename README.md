@@ -9,7 +9,7 @@ use the same term, they may be found together while searching. Using a term whil
 Modules are available to create indexes or registers of the data from one or more collections together.
 Data is entered or modified with the use of a generated data entry module, that is then completely programmable using the Rexx language.
 
-The system is first used for the disclosure of the KDC archives, containing large and small archives by persons or organisations, 
+The system is first used for the disclosure of the KDC archives in the Netherlands, containing large and small archives by persons or organisations, 
 a library, a photo and poster collection, newspaper clippings and a thesaurus, based on the AACR rules.
 
 Download only the DOCUMENTATION folder, to see examples and possibilities, if you like.
